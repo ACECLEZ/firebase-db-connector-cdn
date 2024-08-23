@@ -1,6 +1,6 @@
 //post data to firebase
 function postData(collectionID, docID, fieldID, data) {
-    const db = firebase.firestore();
+    var db = firebase.firestore();
     db.collection(collectionID).doc(docID).set({
         [fieldID]: data
     }, { merge: true })
@@ -14,11 +14,11 @@ function postData(collectionID, docID, fieldID, data) {
 
 //read firebase data
 function readData(collectionID, docID, fieldID) {
-    const db = firebase.firestore();
+    var db = firebase.firestore();
     db.collection(collectionID).doc(docID).get()
     .then((doc) => {
         if (doc.exists) {
-            const data = doc.data();
+            var data = doc.data();
             console.log("Data:", data[fieldID]);
             return data[fieldID]; 
         } else {
