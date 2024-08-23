@@ -1,0 +1,28 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Allow read access to the 'general bucket' collection for all users (including those not logged in)
+    match /general_bucket/{docId} {
+      allow read: if true; // Allow anyone to read
+    }
+
+    // Allow logged-in users to read documents within their own user ID collection
+    match /{userId}/{docId} {
+      allow read: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Allow logged-in users on the 'admin' list to read and write all data, except for the 'superadmin' collection
+    match /{document=**} {
+      allow read, write: if request.auth != null &&
+                        exists(/databases/$(database)/documents/admin/$(request.auth.uid)) &&
+                       !resource.path.startsWith('/databases/$(database)/documents/superadmin/');
+    }
+
+    // Deny access by default to any other collections for users not logged in
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
