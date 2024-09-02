@@ -28,3 +28,6 @@
 - [+] delete firebase field `deleteField(collectionID, docID, fieldID)`
 - [+] delete firebase document `deleteDoc(collectionID, docID)`
 - [+] delete firebase collection `deleteCollection(collectionID, batchSize = 10)`
+
+###### v1.0.1
+- [+] post nested data to firebase `postExtendedData(collectionID, docID, interCollectionID, interDocID, fieldID, data)`
